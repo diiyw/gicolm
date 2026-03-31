@@ -1,6 +1,6 @@
 # gicolm
 
-A pure Go implementation of [picolm](https://github.com/picolm/picolm) — ultra-lightweight LLM inference engine.
+A pure Go implementation of [picolm](https://github.com/RightNow-AI/picolm) — ultra-lightweight LLM inference engine.
 
 ## Features
 
