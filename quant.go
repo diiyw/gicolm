@@ -364,14 +364,7 @@ func GGUFTypeRowSize(qtype GGUFType, n int) int {
 
 // Fused dot products
 
-func VecDotF32F32(src []byte, x []float32, n int) float32 {
-	var sum float32
-	for i := 0; i < n; i++ {
-		w := math.Float32frombits(binary.LittleEndian.Uint32(src[i*4:]))
-		sum += w * x[i]
-	}
-	return sum
-}
+// VecDotF32F32 is implemented in simd.go (generic) and simd_amd64.go (amd64 with AVX2).
 
 func VecDotQ4KF32(src []byte, x []float32, n int) float32 {
 	nb := n / 256

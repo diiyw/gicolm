@@ -63,18 +63,6 @@ func MatMul(out, x []float32, W []byte, n, d int, qtype GGUFType) {
 	wg.Wait()
 }
 
-// RmsNorm computes out[i] = x[i] / sqrt(mean(x^2) + eps) * weight[i]
-func RmsNorm(out, x, weight []float32, size int) {
-	var ss float32
-	for i := 0; i < size; i++ {
-		ss += x[i] * x[i]
-	}
-	ss = 1.0 / float32(math.Sqrt(float64(ss/float32(size)+1e-5)))
-	for i := 0; i < size; i++ {
-		out[i] = x[i] * ss * weight[i]
-	}
-}
-
 // Softmax computes in-place softmax over x[0..size-1].
 func Softmax(x []float32, size int) {
 	maxVal := x[0]
@@ -116,26 +104,5 @@ func RoPE(q, k []float32, headDim, nHeads, nKVHeads int, cosPos, sinPos []float3
 			kh[i*2] = k0*cosPos[i] - k1*sinPos[i]
 			kh[i*2+1] = k0*sinPos[i] + k1*cosPos[i]
 		}
-	}
-}
-
-// SiLU applies in-place SiLU activation: x[i] = x[i] / (1 + exp(-x[i]))
-func SiLU(x []float32, size int) {
-	for i := 0; i < size; i++ {
-		x[i] = x[i] / (1.0 + float32(math.Exp(float64(-x[i]))))
-	}
-}
-
-// ElemwiseMul computes out[i] = a[i] * b[i]
-func ElemwiseMul(out, a, b []float32, size int) {
-	for i := 0; i < size; i++ {
-		out[i] = a[i] * b[i]
-	}
-}
-
-// VecAdd computes a[i] += b[i] in-place.
-func VecAdd(a, b []float32, size int) {
-	for i := 0; i < size; i++ {
-		a[i] += b[i]
 	}
 }
